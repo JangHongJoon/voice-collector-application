@@ -56,16 +56,26 @@ const ReactRecorder = () => {
   };
 
   const handleSubmit = () => {
-    const formData = new FormData();
-    formData.append('file', audioFile, fileName);
+    const formDataLocal = new FormData();
+    formDataLocal.append('file', audioFile, fileName);
 
-    axios.post('/submitRoute/upload', formData  , {
+    axios.post('/submitRoute/upload', formDataLocal  , {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
+
+    const formDataServer = new FormData();
+    formDataServer.append('fName', fileName)
+
+    axios.post('/registerNameRoute/inputData/testWav/', formDataServer , {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     
   }
+
   const handleStartRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
