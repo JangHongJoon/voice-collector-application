@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { ReactMic } from 'react-mic';
 import { saveAs } from 'file-saver';
+import axios from 'axios';
 
 const WAV_TYPE = 'audio/wav';
 
 const ReactRecorder = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [audioLink, setAudioLink] = useState('');
+  const [audioFile, setAudioFile] = useState();
   const [recordDuration, setRecordDuration] = useState(5);
   const [isDownloaded, setIsDownloaded] = useState(false);
   const [fileName, setFileName] = useState(' ');
@@ -14,6 +16,7 @@ const ReactRecorder = () => {
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
   const [isMicrophoneAllowed, setIsMicrophoneAllowed] = useState(null);
+
 
   useEffect(() => {
     let timer;
@@ -39,9 +42,10 @@ const ReactRecorder = () => {
     const audioBuffer = await new AudioContext().decodeAudioData(
       await recordedAudio.blob.arrayBuffer()
     );
-
+    
     const wavData = audioBufferToWav(audioBuffer);
     const wavBlob = new Blob([wavData], { type: WAV_TYPE });
+    setAudioFile(wavBlob);
 
     setAudioLink(URL.createObjectURL(wavBlob));
     setIsDownloaded(true);
@@ -51,6 +55,17 @@ const ReactRecorder = () => {
     saveAs(audioLink, fileName);
   };
 
+  const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append('file', audioFile, fileName);
+
+    axios.post('/submitRoute/upload', formData  , {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    
+  }
   const handleStartRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -106,6 +121,11 @@ const ReactRecorder = () => {
         <div>
           {audioLink && isDownloaded && (
             <button onClick={handleDownload}>Download</button>
+          )}
+        </div>
+        <div>
+          {audioLink && isDownloaded && (
+            <button onClick={handleSubmit}>Submit To Server</button>
           )}
         </div>
         <div>
