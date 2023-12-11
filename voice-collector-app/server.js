@@ -8,7 +8,7 @@ const port = 5000;
 // Multer setup for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'C:/Temp'); // Set the destination folder
+    cb(null, '/home/database/webServer/tempDir/wav'); // Set the destination folder
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname); // Keep the original filename
