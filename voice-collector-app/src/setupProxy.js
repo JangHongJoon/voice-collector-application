@@ -10,4 +10,15 @@ module.exports = function (app) {
       }
     }),
   );
+
+  app.use(
+    createProxyMiddleware('/registerNameRoute', {
+      target: 'http://localhost:8000',
+      changeOrigin: true,
+      pathRewrite:{
+        '^/registerNameRoute' : ''
+      }
+    }),
+  );
+
 };
