@@ -1,11 +1,15 @@
 import React from 'react';
-import ReactRcorder from './components/ReactRcorder';
+
+import GlobalStyles from './styles/GlobalStyles';
+
+import RouteScreen from './RouteScreen';
 
 const App = () => {
   return (
-    <div>
-      <ReactRcorder />
-    </div>
+    <>
+      <GlobalStyles />
+      <RouteScreen />
+    </>
   );
 };
 
