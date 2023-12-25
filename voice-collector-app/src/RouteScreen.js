@@ -8,7 +8,7 @@ import RecordScreen from './screens/record/RecordScreen';
 import './css/RouteScreen.css';
 
 const RouteScreen = () => {
-    const [currentPage, setCurrentPage] = useState('RecordScreen');
+    const [currentPage, setCurrentPage] = useState('LoginScreen');
 
     const rootNavigateTo = (page) => {
         setCurrentPage(page);
