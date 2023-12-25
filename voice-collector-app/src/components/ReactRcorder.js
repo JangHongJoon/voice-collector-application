@@ -17,6 +17,20 @@ const ReactRecorder = () => {
   const [gender, setGender] = useState('');
   const [isMicrophoneAllowed, setIsMicrophoneAllowed] = useState(null);
 
+  const [hexString, setHexString] = useState('');
+
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+    const arrayBuffer = event.target.result;
+    const uint8Array = new Uint8Array(arrayBuffer);
+    const hexString = uint8Array.reduce(
+      (acc, byte) => acc + byte.toString(16).padStart(2,'0'), '');
+    
+    // console.log(hexString);
+    setHexString(hexString);
+  }
+
 
   useEffect(() => {
     let timer;
@@ -27,7 +41,7 @@ const ReactRecorder = () => {
   }, [isRecording, recordDuration]);
 
   useEffect(() => {
-    setFileName(`${gender}_${age}_${recordDuration}s_${YYYYMMDDHHMMSS()}.wav`);
+    setFileName(`${YYYYMMDDHHMMSS()}_${gender}${age}_테스트.wav`);
   }, [recordDuration, age, gender]);
 
   const clearHandle = () => {
@@ -39,12 +53,19 @@ const ReactRecorder = () => {
   };
 
   const processRecordedAudio = async (recordedAudio) => {
+
     const audioBuffer = await new AudioContext().decodeAudioData(
       await recordedAudio.blob.arrayBuffer()
     );
+
     
     const wavData = audioBufferToWav(audioBuffer);
     const wavBlob = new Blob([wavData], { type: WAV_TYPE });
+
+    reader.readAsArrayBuffer(wavBlob);
+
+    console.log(wavBlob);
+  
     setAudioFile(wavBlob);
 
     setAudioLink(URL.createObjectURL(wavBlob));
@@ -56,24 +77,16 @@ const ReactRecorder = () => {
   };
 
   const handleSubmit = () => {
-    const formDataLocal = new FormData();
-    formDataLocal.append('file', audioFile, fileName);
+    const formData = JSON.stringify({
+      'fName' : fileName,
+      'bytecode' : hexString
+    })
 
-    axios.post('/submitRoute/upload', formDataLocal  , {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    const formDataServer = new FormData();
-    formDataServer.append('fName', fileName)
-
-    axios.post('/registerNameRoute/inputData/testWav/', formDataServer , {
+    axios.post('/registerNameRoute/inputData/wavUpload/', formData , {
       headers: {
         'Content-Type': 'application/json',
       },
-    });
-    
+    });    
   }
 
   const handleStartRecording = async () => {
@@ -121,11 +134,13 @@ const ReactRecorder = () => {
           browser settings.
         </p>
       )}
+
       <ReactMic
         record={isRecording}
         onStop={processRecordedAudio}
         mimeType="audio/webm"
       />
+      
       <div>{audioLink && <button onClick={clearHandle}>Clear</button>}</div>
       <div>
         <div>
