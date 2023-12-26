@@ -13,7 +13,7 @@ module.exports = function (app) {
 
   app.use(
     createProxyMiddleware('/registerNameRoute', {
-      target: 'http://121.174.96.171:8000',
+      target: 'http://localhost:8000',
       changeOrigin: true,
       pathRewrite:{
         '^/registerNameRoute' : ''
