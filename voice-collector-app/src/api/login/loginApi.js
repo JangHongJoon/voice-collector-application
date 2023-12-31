@@ -9,7 +9,8 @@ export const loginSubmit = (idInput, pwInput, rootNavigateTo) => {
 
     const currentDate = () => {
         const date = new Date();
-        const currentDate = date.getFullYear()+"-" + date.getMonth() + "-" + date.getDate()+ " " +
+        const currentMonth = date.getMonth() + 1;
+        const currentDate = date.getFullYear()+"-" + currentMonth + "-" + date.getDate()+ " " +
             date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
         return currentDate
     }

@@ -10,8 +10,8 @@ const App = () => {
   return (
     <>
       <GlobalStyles />
-      {/* <RouteScreen /> */}
-      <RecordInfoScreen />
+      <RouteScreen />
+      {/* <RecordInfoScreen /> */}
     </>
   );
 };
