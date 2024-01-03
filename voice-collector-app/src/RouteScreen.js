@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import LoginScreen from './screens/login/LoginScreen';
@@ -8,12 +8,18 @@ import RecordScreen from './screens/record/RecordScreen';
 import './css/RouteScreen.css';
 
 const RouteScreen = () => {
+
     const [currentPage, setCurrentPage] = useState('LoginScreen');
 
     const rootNavigateTo = (page) => {
         setCurrentPage(page);
     }
-
+    
+    useEffect(() => {
+        if (window.localStorage.getItem('userId')!==null)
+            rootNavigateTo('RecordScreen')
+    },[])
+    
     return (
         <div className='route-container'>
             <CSSTransition
