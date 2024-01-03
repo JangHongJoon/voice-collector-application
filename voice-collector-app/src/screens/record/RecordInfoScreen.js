@@ -1,96 +1,98 @@
 import React, { useState } from 'react';
+import InitialBackground from '../../components/styledComponent/InitialBackground';
+import TextBox from '../../components/styledComponent/TextBox';
+import Button from '../../components/styledComponent/Button';
+import RowDiv from '../../components/styledComponent/RowDiv';
+import RadioBox from '../../components/styledComponent/RadioBox';
+import Text from '../../components/styledComponent/Text';
+import Title from '../../components/styledComponent/Title';
+import SmallButton from '../../components/styledComponent/SmallButton';
 
-function RecordInfoScreen() {
-  const [formData, setFormData] = useState({
-    id: '',
-    name: '',
-    birthdate: '',
-    gender: '',
-  });
+import {recordInfo} from '../../api/record/recordInfo';
 
-  const handleInputChange = (name, value) => {
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+function RecordInfoScreen({rootNavigateTo, recordNavigateTo}) {
+  
+  const [idInput, setIdInput] = useState('');
+  const [nameInput, setNameInput] = useState('')
+  const [birthInput, setBirthInput] = useState('')
+  const [gender, setGender] = useState('');
 
-  const handleRadioChange = (value) => {
-    setFormData({
-      ...formData,
-      gender: value,
-    });
-  };
+  const handleIdChange = (event) => {
+    setIdInput(event.target.value)
+  }
+  const handleNameChange = (event) => {
+    setNameInput(event.target.value);
+  }
 
-  const handleRecordStart = () => {
-    // 녹음 시작 로직 추가
-    console.log('녹음 시작');
-  };
+  const handleBirthChange = (event) => {
+      setBirthInput(event.target.value);
+  }
 
+  const handleGenderChange = (event) => {
+      setGender(event.target.value);
+    };
+
+    
+    const hideName = (length) => {
+      let hiddenName = '';
+      for (let i=1; i<length; i++){
+          hiddenName += '*';
+      }
+      return hiddenName
+  }
+
+  const handleNavigateToRecord = () => {
+    const doctorId = window.localStorage.getItem('userId');
+    const nameBlur = nameInput[0] + hideName(nameInput.length);
+    console.log(idInput)
+    console.log(nameInput)
+    console.log(birthInput)
+    console.log(gender)
+    recordInfo(doctorId, idInput, nameBlur, gender, birthInput, recordNavigateTo)
+  }
+
+  const handleNavigateToRegister = () => {
+    recordNavigateTo('RecordInfoRegisterScreen')
+  }
+
+  const handleLogout = () => {
+    window.localStorage.clear();
+    rootNavigateTo('LoginScreen');
+  }
+  
   return (
-    <form>
-      <div>
-        <h2>정보 입력</h2>
-      </div>
-      <div>
-        <input
-          type="text"
-          id="id"
-          placeholder="아이디"
-          value={formData.id}
-          onChange={(e) => handleInputChange('id', e.target.value)}
-        />
-      </div>
-      <br></br>
-      <div>
-        <input
-          type="text"
-          id="name"
-          placeholder="이름"
-          value={formData.name}
-          onChange={(e) => handleInputChange('name', e.target.value)}
-        />
-      </div>
-      <br></br>
-      <div>
-        <input
-          type="text"
-          id="birthdate"
-          placeholder="생년월일"
-          value={formData.birthdate}
-          onChange={(e) => handleInputChange('birthdate', e.target.value)}
-        />
-      </div>
-      <br></br>
-      <div>
-        <label>
-          <input
-            type="radio"
-            value="남"
-            checked={formData.gender === '남'}
-            onChange={() => handleRadioChange('남')}
-          />
-          남
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="여"
-            checked={formData.gender === '여'}
-            onChange={() => handleRadioChange('여')}
-          />
-          여
-        </label>
-      </div>
-      <br></br>
-
-      <div>
-        <button type="button" onClick={handleRecordStart}>
-          녹음 시작
-        </button>
-      </div>
-    </form>
-  );
+    <InitialBackground>
+      <Title>녹음 정보</Title>
+      <TextBox type="text" id="idInput" placeholder="환자 아이디" 
+                  value={idInput} onChange={handleIdChange}/>
+      <TextBox type="text" id="pwInput" placeholder="이름" 
+              value={nameInput} onChange={handleNameChange}/>
+      <TextBox type="text" maxLength={6} id="birthInput" placeholder="생년월일 (ex. 990427)" 
+              value={birthInput} onChange={handleBirthChange}/>
+      <RowDiv>
+        <RowDiv>
+            <RadioBox type="radio" name="maleCheck" value="남" 
+                checked={gender === '남'} onChange={handleGenderChange}/>
+            <Text>남</Text>
+        </RowDiv>
+        <RowDiv>
+            <RadioBox type="radio" name="femaleCheck" value="여" 
+                checked={gender === '여'} onChange={handleGenderChange}/>
+            <Text>여</Text> 
+        </RowDiv>
+      </RowDiv>
+      <Button onClick={handleNavigateToRecord}>녹음하기</Button>
+      
+      <RowDiv>
+        <RowDiv>
+          <SmallButton onClick={handleNavigateToRegister}>환자등록</SmallButton>
+        </RowDiv>
+        <RowDiv>
+          <SmallButton onClick={handleLogout}>로그아웃</SmallButton>
+        </RowDiv>
+      </RowDiv>
+    </InitialBackground>
+  )
 }
 
 export default RecordInfoScreen;
