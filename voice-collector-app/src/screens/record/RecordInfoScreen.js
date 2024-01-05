@@ -62,35 +62,31 @@ function RecordInfoScreen({rootNavigateTo, recordNavigateTo}) {
   
   return (
     <InitialBackground>
-      <Title>녹음 정보</Title>
-      <TextBox type="text" id="idInput" placeholder="환자 아이디" 
+      <Title>Recoirding Info</Title>
+      <TextBox type="text" id="idInput" placeholder="Patient ID" 
                   value={idInput} onChange={handleIdChange}/>
-      <TextBox type="text" id="pwInput" placeholder="이름" 
+      <TextBox type="text" id="pwInput" placeholder="Patient Name" 
               value={nameInput} onChange={handleNameChange}/>
-      <TextBox type="text" maxLength={6} id="birthInput" placeholder="생년월일 (ex. 990427)" 
+      <TextBox type="text" maxLength={6} id="birthInput" placeholder="Birth Year, Month, Day (ex. 990427)" 
               value={birthInput} onChange={handleBirthChange}/>
       <RowDiv>
         <RowDiv>
-            <RadioBox type="radio" name="maleCheck" value="남" 
-                checked={gender === '남'} onChange={handleGenderChange}/>
-            <Text>남</Text>
+            <RadioBox type="radio" name="maleCheck" value="M" 
+                checked={gender === 'M'} onChange={handleGenderChange}/>
+            <Text>Male</Text>
         </RowDiv>
         <RowDiv>
-            <RadioBox type="radio" name="femaleCheck" value="여" 
-                checked={gender === '여'} onChange={handleGenderChange}/>
-            <Text>여</Text> 
+            <RadioBox type="radio" name="femaleCheck" value="F" 
+                checked={gender === 'F'} onChange={handleGenderChange}/>
+            <Text>Female</Text> 
         </RowDiv>
       </RowDiv>
-      <Button onClick={handleNavigateToRecord}>녹음하기</Button>
-      
-      <RowDiv>
-        <RowDiv>
-          <SmallButton onClick={handleNavigateToRegister}>환자등록</SmallButton>
-        </RowDiv>
+      <Button onClick={handleNavigateToRecord}>Record Start</Button>
+    
         <RowDiv>
           <SmallButton onClick={handleLogout}>로그아웃</SmallButton>
         </RowDiv>
-      </RowDiv>
+        
     </InitialBackground>
   )
 }
