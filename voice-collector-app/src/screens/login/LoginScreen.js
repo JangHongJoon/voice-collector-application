@@ -47,14 +47,13 @@ const LoginScreen = ({rootNavigateTo}) => {
     return (
         <InitialBackground>
             
-            <Title>로그인</Title>
-            <TextBox type="text" id="idInput" placeholder="아이디" 
+            <Title>Login</Title>
+            <TextBox type="text" id="idInput" placeholder="ID" 
                         value={idInput} onChange={handleIdChange}/>
-            <TextBox type="text" id="pwInput" placeholder="비밀번호" 
+            <TextBox type="text" id="pwInput" placeholder="Password" 
                     value={pwShowingInput} onChange={handlePwChange}/>
 
-            <Button onClick={handleLogin}>로그인</Button>
-            <SmallButton onClick={handleNavigate}>회원가입</SmallButton>
+            <Button onClick={handleLogin}>Login</Button>
         </InitialBackground>
     )
 }
