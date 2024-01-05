@@ -12,38 +12,7 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <WebView
         style={styles.webview}
-        source={{uri: 'https://localhost:3000'}}
-        originWhitelist={['http://*', 'https://*', 'intent://*']}
-        // onShouldStartLoadWithRequest={openExternalLink}
-        onShouldStartLoadWithRequest={(event) => {
-            console.log('onShouldstart');
-            console.log(event.url);
-            if (event.url.startsWith("http")) {
-                Linking.openURL(event.url);
-            }
-            if (
-                Platform.OS === 'android' &&
-                event.url.startsWith("intent")
-            ) {
-                SendIntentAndroid.openChromeIntent(event.url)
-                    // SendIntentAndroid.openAppWithUri(event.url)
-                    .then((isOpened) => {
-                        if (!isOpened) {
-                            Toast.show({text1 : '앱 실행에 실패했습니다'});
-                        }
-                        return false;
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-                return false;
-            }
-            if (Platform.OS === 'ios') {
-                return true;
-            }
-            return true;
-        }}
-
+        source={{uri: 'https://121.174.96.171:3000'}}
       />
     </SafeAreaView>
   );
