@@ -13,7 +13,6 @@ import Word from '../../components/styledComponent/record/Word';
 import ColumnDiv from '../../components/styledComponent/ColumnDiv';
 import SmallButton from '../../components/styledComponent/SmallButton';
 
-
 // 나중에 바꾸기
 import wordJson from '../../wordJson/word'
 import { recordSubmit } from '../../api/record/recordSubmit';
@@ -287,14 +286,54 @@ const RecordingScreen = ({rootNavigateTo, recordNavigateTo}) => {
             <Word>{word}</Word>
         </WordContainer>
         
-        <LoadingContainer>
+        <LoadingContainer onClick={handleRecordCountDown} >
+          
+          {!recordingStatus && 
+            <img src="img/recordGuideIcon.png" style={{width : '15vh', height:'20vh', zIndex:2, position: 'absolute', left:'100px', top:'100px'}} 
+             onClick={handleRecordCountDown}/>
+          }
+
           <OuterCircle>
             <InnerCircle start={0} end={progress} />
-            <SmallInnerCircle onClick={handleRecordCountDown} />
+            <SmallInnerCircle>
+            
+
+                {!recordingStatus && fileName === '' && (
+                <>
+                    <Text>녹음 시작</Text>
+                </>
+              )}
+              {!recordingStatus && fileName !== '' && (
+                  <>
+                      <Text>다시 녹음 </Text>
+                  </>
+              )}
+                {recordingStatus && (
+                <>
+                    <Text>따라 읽으세요!</Text>
+                    <Text>{count}</Text>
+                </>
+              )}
+            </SmallInnerCircle>
           </OuterCircle>
+          
         </LoadingContainer>
 
-        <ColumnDiv style={{position:'relative', top : 150}}>
+        <ColumnDiv style={{position:'relative', top: 150}}>
+            
+            {!recordingStatus && fileName !== '' && !endStatus && (
+                <>
+                    <SmallButton style={{bottom:'5vh'}} onClick={handleNextWord}>다음 단어</SmallButton>
+                </>
+            )}
+            {!recordingStatus && fileName !== '' && endStatus && (
+                <>
+                    <SmallButton style={{bottom:'5vh'}} onClick={handleSubmit}>제출</SmallButton>
+                </>
+            )}
+        </ColumnDiv>
+
+        <ColumnDiv style={{position:'absolute', bottom: 0}}>
             <ReactMic
                 record={isRecording}
                 onStop={processRecordedAudio}
@@ -302,40 +341,6 @@ const RecordingScreen = ({rootNavigateTo, recordNavigateTo}) => {
                 strokeColor="#84B583"
             />
         </ColumnDiv>
-
-        <ColumnDiv style={{position:'relative', top: 200}}>
-            {!recordingStatus && fileName === '' && (
-                <>
-                    <Text>버튼을 눌러</Text>
-                    <Text>녹음을 시작해주세요</Text>
-                </>
-            )}
-            {!recordingStatus && fileName !== '' && (
-                <>
-                    <Text>다시 녹음하시려면</Text>
-                    <Text>버튼을 눌러주세요</Text>
-                </>
-            )}
-            {!recordingStatus && fileName !== '' && !endStatus && (
-                <>
-                    <SmallButton style={{bottom:'-5vh'}} onClick={handleNextWord}>다음 단어</SmallButton>
-                </>
-            )}
-            {!recordingStatus && fileName !== '' && endStatus && (
-                <>
-                    <SmallButton style={{bottom:'-5vh'}} onClick={handleSubmit}>제출</SmallButton>
-                </>
-            )}
-            {recordingStatus && (
-                <>
-                    <Text>따라 읽으세요!</Text>
-                    <Text>{count}</Text>
-                </>
-            )}
-            
-        </ColumnDiv>
-
-
       </InitialBackground>
     )
 }

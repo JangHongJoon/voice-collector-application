@@ -12,7 +12,7 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <WebView
         style={styles.webview}
-        source={{uri: 'https://121.174.96.171:3000'}}
+        source={{uri: 'http://172.18.131.96:3000'}}
       />
     </SafeAreaView>
   );
