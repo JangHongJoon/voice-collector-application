@@ -4,6 +4,11 @@ const SmallButton = styled.div`
     margin-top : 4vh;
     position: absolute;
     bottom : 15vh;
+    width: 30vw;
+    display:flex;
+    flex-direction : column;
+    align-items:center;
+    justify-content: center;
 `;
 
 export default SmallButton;
