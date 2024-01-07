@@ -7,8 +7,8 @@ const InnerCircle = styled.div`
     from ${(props) => props.start}deg,
     #fff ${(props) => props.start}deg,
     #fff ${(props) => props.end}deg,
-    #000000 ${(props) => props.end}deg,
-    #000000 360deg
+    #A3CCA2 ${(props) => props.end}deg,
+    #A3CCA2 360deg
   );
   position: absolute;
   top: 0;

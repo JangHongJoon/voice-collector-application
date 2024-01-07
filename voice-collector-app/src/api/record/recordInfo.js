@@ -12,14 +12,21 @@ export const recordInfo = (doctorId, idInput, nameBlur, gender, birthInput, reco
     }
 
     const handleRedirect = () => {
-        const session = window.sessionStorage;
-        session.setItem('name', nameBlur);
-        session.setItem('age', calculateAge(birthInput));
-        session.setItem('gender', gender);
-        session.setItem('doctorId', doctorId);
-        session.setItem('patientId', idInput);
+      const session = window.sessionStorage;
 
-        recordNavigateTo('RecordingScreen')  
+      if (nameBlur !== '' && birthInput!== '' && gender !=='' && doctorId !=='' && idInput !==''){
+          session.setItem('name', nameBlur);
+          session.setItem('age', calculateAge(birthInput));
+          session.setItem('gender', gender);
+          session.setItem('doctorId', doctorId);
+          session.setItem('patientId', idInput);
+          recordNavigateTo('RecordingScreen')
+      }
+      else {
+        alert('환자 정보가 정확하지 않습니다. 입력된 정보를 확인해주세요.')
+      } 
+
+          
     }
 
     const formData = JSON.stringify({
@@ -30,22 +37,23 @@ export const recordInfo = (doctorId, idInput, nameBlur, gender, birthInput, reco
       'patientID' : idInput
     })
 
-    axios.post('/registerNameRoute/inputData/patient/search/', formData , {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .catch(() => {
-        alert('환자 정보가 정확하지 않습니다. 입력된 정보를 확인해주세요.')
-    })
-    .then(res => {
-        console.log(doctorId)
-        console.log(idInput)
-        console.log(nameBlur)
-        console.log(gender)
-        console.log(birthInput)
-        console.log(res)
-        res.status === 204 ? alert('환자 정보가 정확하지 않습니다. 입력된 정보를 확인해주세요.') : handleRedirect();
-        
-    })    
+    // axios.post('/registerNameRoute/inputData/patient/search/', formData , {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    // .catch(() => {
+    //     
+    //     return ;
+    // })
+    // .then(res => {
+    //     console.log(doctorId)
+    //     console.log(idInput)
+    //     console.log(nameBlur)
+    //     console.log(gender)
+    //     console.log(birthInput)
+    //     console.log(res)
+    // }) 
+
+    handleRedirect()
   }

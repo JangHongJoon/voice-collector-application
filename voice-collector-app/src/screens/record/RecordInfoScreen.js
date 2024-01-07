@@ -62,12 +62,12 @@ function RecordInfoScreen({rootNavigateTo, recordNavigateTo}) {
   
   return (
     <InitialBackground>
-      <Title>Recoirding Info</Title>
+      <Title>Recording Info</Title>
       <TextBox type="text" id="idInput" placeholder="Patient ID" 
                   value={idInput} onChange={handleIdChange}/>
       <TextBox type="text" id="pwInput" placeholder="Patient Name" 
               value={nameInput} onChange={handleNameChange}/>
-      <TextBox type="text" maxLength={6} id="birthInput" placeholder="Birth Year, Month, Day (ex. 990427)" 
+      <TextBox type="text" maxLength={6} id="birthInput" placeholder="YYMMDD (ex. 990427)" 
               value={birthInput} onChange={handleBirthChange}/>
       <RowDiv>
         <RowDiv>
@@ -84,7 +84,7 @@ function RecordInfoScreen({rootNavigateTo, recordNavigateTo}) {
       <Button onClick={handleNavigateToRecord}>Record Start</Button>
     
         <RowDiv>
-          <SmallButton onClick={handleLogout}>로그아웃</SmallButton>
+          <SmallButton onClick={handleLogout}>Logout</SmallButton>
         </RowDiv>
         
     </InitialBackground>
